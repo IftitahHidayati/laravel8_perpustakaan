@@ -19,6 +19,12 @@ Route::get('/', PeminjamBukuController::class);
 
 Auth::routes();
 
+Route::get('/mysql', function () {
+    Artisan::call('migrate:rollback', ['--force' => true]);
+    Artisan::call('migrate', ['--force' => true]);
+    Artisan::call('db:seed', ['--force'=>true]);
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/cek-role', CekRoleController::class);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
